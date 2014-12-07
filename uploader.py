@@ -8,6 +8,9 @@ import sys
 import pdb
 import os
 from subprocess import call
+import uuid
+import shutil
+
 #import os
  
 # Global variables
@@ -17,7 +20,7 @@ from subprocess import call
 # Function declarations
 def ensure_dir(f):
     d = os.path.dirname(f)
-    pdb.set_trace()
+    #pdb.set_trace()
     if not os.path.exists(d):
         print('creating directory: ' + f)
         os.makedirs(d)
@@ -34,7 +37,14 @@ def main():
 
     ensure_dir('./uploads/')
 
-    return_code = call("ls -l", shell=True) 
+    diruuid = uuid.uuid1()
+    rsyncdir = './uploads/'+ diruuid.urn[9:]
+
+    os.makedirs(rsyncdir)
+    shutil.copy("./wallpaper2.jpg", rsyncdir + "/wallpaper_" + "1")
+
+    return_code = call("ls -l ./uploads", shell=True) 
+    return_code = call("ls -l " + rsyncdir, shell=True)
     print(return_code);
  
 # Main body
