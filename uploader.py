@@ -10,6 +10,7 @@ import os
 from subprocess import call
 import uuid
 import shutil
+import time
 
 #import os
  
@@ -52,7 +53,15 @@ def main():
     print(return_code);
     
     print("Calling rsync....");
-    return_code = call("/usr/bin/rsync -r ./uploads/ /home/kosiara/s3mnt/rsync", shell=True)
+    start = time.time()
+    return_code = call("/usr/bin/rsync -r --inplace ./uploads/ /home/kosiara/s3mnt/rsync", shell=True)
+    end = time.time()
+    time_elapsed = end - start
+    call("du -hs ./uploads/", shell=True)
+    print(str(time_elapsed) + " sec.")
+    
+    print("Sleeping 120 sec")
+    time.sleep( 120 )
  
 # Main body
 if __name__ == '__main__':
