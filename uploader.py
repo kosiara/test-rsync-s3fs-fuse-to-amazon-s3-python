@@ -38,30 +38,31 @@ def main():
 
     ensure_dir('./uploads/')
 
-    diruuid = uuid.uuid1()
-    rsyncdir = './uploads/'+ diruuid.urn[9:]
+    infiniteLoop = 1
+    while (infiniteLoop == 1):
 
-    os.makedirs(rsyncdir)
-    for x in range(0, 3):
-      shutil.copy("./wallpaper2.jpg", rsyncdir + "/wallpaper_" + str(x))
+      diruuid = uuid.uuid1()
+      rsyncdir = './uploads/'+ diruuid.urn[9:]
 
-    
+      os.makedirs(rsyncdir)
+      for x in range(0, 3):
+        shutil.copy("./wallpaper2.jpg", rsyncdir + "/wallpaper_" + str(x))
 
-    return_code = call("ls -l ./uploads", shell=True) 
-    print("\r\nListing directory: " + rsyncdir);
-    return_code = call("ls -l " + rsyncdir, shell=True)
-    print(return_code);
+      return_code = call("ls -l ./uploads", shell=True) 
+      print("\r\nListing directory: " + rsyncdir);
+      return_code = call("ls -l " + rsyncdir, shell=True)
+      print(return_code);
     
-    print("Calling rsync....");
-    start = time.time()
-    return_code = call("/usr/bin/rsync -r --inplace ./uploads/ /home/kosiara/s3mnt/rsync", shell=True)
-    end = time.time()
-    time_elapsed = end - start
-    call("du -hs ./uploads/", shell=True)
-    print(str(time_elapsed) + " sec.")
+      print("Calling rsync....");
+      start = time.time()
+      return_code = call("/usr/bin/rsync -r --inplace ./uploads/ /home/kosiara/s3mnt/rsync", shell=True)
+      end = time.time()
+      time_elapsed = end - start
+      call("du -hs ./uploads/", shell=True)
+      print(str(time_elapsed) + " sec.")
     
-    print("Sleeping 120 sec")
-    time.sleep( 120 )
+      print("Sleeping 120 sec")
+      time.sleep( 120 )
  
 # Main body
 if __name__ == '__main__':
