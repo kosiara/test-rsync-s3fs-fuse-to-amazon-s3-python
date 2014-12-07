@@ -23,10 +23,13 @@ def ensure_dir(f):
     d = os.path.dirname(f)
     #pdb.set_trace()
     if not os.path.exists(d):
-        print('creating directory: ' + f)
+        myprint('creating directory: ' + f)
         os.makedirs(d)
 
-
+def myprint(msg):
+    with open("output.txt", "a") as myfile:
+      myfile.write(str(msg) + "\r\n")
+    print(str(msg))
  
 def main():
     args = sys.argv[1:]
@@ -49,24 +52,24 @@ def main():
         shutil.copy("./wallpaper2.jpg", rsyncdir + "/wallpaper_" + str(x))
 
       return_code = call("ls -l ./uploads", shell=True) 
-      print("\r\nListing directory: " + rsyncdir);
+      myprint("\r\nListing directory: " + rsyncdir);
       return_code = call("ls -l " + rsyncdir, shell=True)
-      print(return_code);
+      myprint(return_code);
     
-      print("Calling rsync....");
+      myprint("Calling rsync....");
       start = time.time()
       return_code = call("/usr/bin/rsync -r --inplace ./uploads/ /home/kosiara/s3mnt/rsync", shell=True)
       end = time.time()
       time_elapsed = end - start
     
-      print("Upload size: ")
-      call("du -hs ./uploads/", shell=True)
-      print("Number of files:")
-      call("find ./uploads -type f | wc -l", shell=True)
-      print(str(time_elapsed) + " sec.")
+      myprint("Upload size: ")
+      call("du -hs ./uploads/ >> output.txt", shell=True)
+      myprint("Number of files:")
+      call("find ./uploads -type f | wc -l >> output.txt", shell=True)
+      myprint(str(time_elapsed) + " sec.")
     
-      print("Sleeping 120 sec")
-      time.sleep( 120 )
+      myprint("Sleeping 10 sec")
+      time.sleep( 10 )
  
 # Main body
 if __name__ == '__main__':
