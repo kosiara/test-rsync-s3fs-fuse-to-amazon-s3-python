@@ -58,7 +58,11 @@ def main():
       return_code = call("/usr/bin/rsync -r --inplace ./uploads/ /home/kosiara/s3mnt/rsync", shell=True)
       end = time.time()
       time_elapsed = end - start
+    
+      print("Upload size: ")
       call("du -hs ./uploads/", shell=True)
+      print("Number of files:")
+      call("find ./uploads -type f | wc -l", shell=True)
       print(str(time_elapsed) + " sec.")
     
       print("Sleeping 120 sec")
