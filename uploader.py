@@ -41,11 +41,18 @@ def main():
     rsyncdir = './uploads/'+ diruuid.urn[9:]
 
     os.makedirs(rsyncdir)
-    shutil.copy("./wallpaper2.jpg", rsyncdir + "/wallpaper_" + "1")
+    for x in range(0, 3):
+      shutil.copy("./wallpaper2.jpg", rsyncdir + "/wallpaper_" + str(x))
+
+    
 
     return_code = call("ls -l ./uploads", shell=True) 
+    print("\r\nListing directory: " + rsyncdir);
     return_code = call("ls -l " + rsyncdir, shell=True)
     print(return_code);
+    
+    print("Calling rsync....");
+    return_code = call("/usr/bin/rsync -r ./uploads/ /home/kosiara/s3mnt/rsync", shell=True)
  
 # Main body
 if __name__ == '__main__':
